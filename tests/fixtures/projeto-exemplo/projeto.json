@@ -1,0 +1,9 @@
+{
+  "titulo": "Projeto de exemplo",
+  "criado": "2026-01-05 10:00",
+  "atualizado": "2026-01-05 10:20",
+  "fontes": [
+    {"id": "01-video-de-exemplo", "tipo": "youtube", "origem": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+     "titulo": "Vídeo de exemplo", "duracao": 19.0, "status": "pronto", "adicionado": "2026-01-05 10:05"}
+  ]
+}

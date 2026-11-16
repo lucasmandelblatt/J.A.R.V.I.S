@@ -1,0 +1,18 @@
+{
+  "user_name": "Seu nome",
+  "city": {
+    "name": "Rio de Janeiro",
+    "region": "RJ, Brasil",
+    "lat": -22.9068,
+    "lon": -43.1729
+  },
+  "voice": "Charon",
+  "task_timeout": 300,
+  "vault": "~/Jarvis",
+  "port": 8765,
+  "vision": false,
+  "internet": true,
+  "actions": true,
+  "claps": true,
+  "interrupcao": "normal"
+}

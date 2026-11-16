@@ -1,0 +1,34 @@
+# ambiente e lixo
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.app/
+*.tmp
+jarvis.log
+graphify-out/
+.backup-*/
+.claude/settings.local.json
+
+# dados e configuração pessoais (o git guarda só o código)
+config.json
+.env
+projetos/
+calendario.json
+notas.json
+busca.db
+anexos/
+arquivos/
+historico/
+memoria-migrada-para-obsidian/
+*.antes-*
+
+# logo pessoal: fica só na máquina; sem ele a página usa static/logo.svg
+static/jarvis-logo*.png
+
+# histórico pessoal do desenvolvimento
+RELATORIO-*.md
+PROGRESSO-*.md
+
+# versão pessoal da persona (prompts/persona.local.md), no lugar da pública
+prompts/*.local.md
