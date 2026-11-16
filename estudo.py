@@ -10,6 +10,7 @@ import projects
 import re
 import tempfile
 import time
+import urllib.parse
 import video
 
 from aiohttp import web
@@ -180,7 +181,7 @@ async def start_recording(app, titulo="", projeto="", foco="", minutos=0, proj=N
     path = proj.source_dir(sid) / "video.mp4"
     path.parent.mkdir(parents=True, exist_ok=True)
     proj.update_source(sid, origem=str(path), local=str(path), gravado=True, foco=foco or None,
-                       titulo_auto=not (titulo or "").strip(),   # the tab's title ("TubeClub") is renamed from the content
+                       titulo_auto=not (titulo or "").strip(),   # the tab's title is renamed from the content
                        pagina=(page_url or "").strip() if (page_url or "").startswith("http") else None)
     proc, err = await spawn_recorder(path)
     if proc is None:
@@ -423,8 +424,9 @@ async def record_lesson(app, state, lesson, speed):
     await osascript(f'tell application "Google Chrome"\nset index of window id {win} to 1\nactivate\nend tell')
     await asyncio.sleep(1.5)
     here, _ = await osascript(f'tell application "Google Chrome" to get URL of tab id {tab} of window id {win}')
-    if "tubeclub.com.br/aula/" not in (here or ""):   # someone used the course tab: opening by URL would lose the sound
-        raise CourseAway(f"a aba do curso saiu da TubeClub ({(here or '?')[:60]}); "
+    site = urllib.parse.urlsplit(lesson["url"]).netloc   # the course's own site, taken from its lesson list
+    if f"{site}/aula/" not in (here or ""):   # someone used the course tab: opening by URL would lose the sound
+        raise CourseAway(f"a aba do curso saiu da página do curso ({(here or '?')[:60]}); "
                          f"{USER} precisa voltar a aba para a aula e clicar uma vez nela")
     await chrome_js(win, tab, course.EXPAND)
     await asyncio.sleep(1)

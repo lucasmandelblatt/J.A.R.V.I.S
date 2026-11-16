@@ -177,7 +177,7 @@ A chave do Gemini não fica no `config.json`. Use o Keychain (`./scripts/set-key
 
 ## Limitações conhecidas
 - Os textos para o Gemini tratam o usuário no masculino ("ele"). O nome entra sem artigo ("de Ana", "a Ana").
-- O modo curso (`estudar_curso`) só funciona com a plataforma TubeClub.
+- O modo curso (`estudar_curso`) só funciona com uma plataforma de cursos específica.
 - `executar_no_mac` (ações no Mac que pedem raciocínio, como e-mail e editar arquivos) depende do Atticus, um app à parte.
   Sem ele, a ferramenta não é oferecida ao Gemini e a persona avisa que o Jarvis não faz essas ações. O `mac_rapido`
   (abrir apps, mover arquivos, volume) continua funcionando.

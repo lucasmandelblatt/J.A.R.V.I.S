@@ -139,7 +139,7 @@ FUNCTIONS = [
          "foco": {"type": "STRING", "description": f"Se {USER} disse o que quer aprender ou procurar no vídeo, escreva aqui."}},
          "required": ["fonte"]}},
     {"name": "estudar_curso",
-     "description": "Estuda um curso inteiro que está aberto no Chrome (ex.: TubeClub), aula por aula, como um aluno: "
+     "description": "Estuda um curso inteiro que está aberto no Chrome, aula por aula, como um aluno: "
                     "toca cada aula no player, grava a janela do Chrome, assiste, guarda cada aula no Studio e no Obsidian e "
                     f"reescreve o manual de execução do negócio a cada aula. Segue de onde parou. Use quando {USER} pedir "
                     "para estudar, assistir ou aprender o curso/módulo inteiro.",
