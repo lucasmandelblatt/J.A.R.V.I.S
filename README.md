@@ -1,8 +1,92 @@
-# Jarvis (voz)
+# Jarvis: assistente de voz que conversa, pesquisa, estuda e executa no Mac
 
-Assistente de voz para Mac. Você conversa em português e o Jarvis responde por voz (Gemini Live).
-Ele guarda memória em notas Markdown (compatível com Obsidian), mantém agenda e notas, estuda vídeos e
-fontes em "projetos" e, se você quiser, pesquisa na internet e faz trabalhos longos com o Claude Code.
+> 🎥 **Demonstração (3 min):** _link do vídeo aqui_
+
+Assistente de voz para Mac, em português. Você conversa e o Jarvis responde por voz (Gemini Live), age no computador,
+pesquisa com fontes, assiste e estuda vídeos e cursos, e guarda memória em notas Markdown (compatível com Obsidian),
+que o Claude Code também lê.
+
+Construído por Lucas Mandelblatt entre 03/11 e 16/11/2026, por vibe coding com o Claude Code. A documentação é
+**retroativa**: foi escrita depois, a partir do código, do histórico de desenvolvimento e das conversas, para registrar
+e tornar rastreáveis as decisões já tomadas. Cada decisão traz a fala do autor, a data e o efeito no código.
+
+| Documento | O que tem |
+|---|---|
+| [`01-DECISOES.md`](01-DECISOES.md) | O que o autor decidiu, com fala literal, reversões, hipóteses e aprendizados |
+| [`00-BIBLIA.md`](00-BIBLIA.md) | O que o Jarvis é: propósito, experiência, arquitetura, regras, testes e pendências |
+| Este README | Apresentação, ficha do projeto e instalação |
+
+## O que ele faz
+- **Voz em tempo real** pelo Gemini Live: dá para interromper; mudo pela tecla F5 e ativação por duas palmas.
+- **25 ferramentas de voz**: ver a tela e o Chrome, pesquisar na web com fontes, agir no Mac, assistir vídeos,
+  estudar cursos, gravar a tela, agenda, notas, memória e busca na memória, entregar textos longos e rodar trabalho
+  longo em segundo plano.
+- **Pesquisa com fontes** por um Claude Code sem interface (só WebSearch e WebFetch).
+- **Trabalho longo**: o Claude Code sem interface lê o código e o cofre por até 25 minutos, mostra cada passo na tela
+  e entrega texto, plano ou prompt. Ele não altera nada.
+- **Studio** (estilo NotebookLM): projetos com fontes, chat com citações e geração de resumo em áudio, slides, mapa
+  mental, quiz e mais.
+- **Memória em arquivos Markdown**, com busca por trechos (SQLite FTS5).
+- **Honestidade verificável**: um detector acusa na tela quando o Jarvis diz que fez algo sem nenhuma ferramenta ter
+  rodado.
+
+## Por que isso importa para quem constrói agentes
+| Capacidade | Onde o Jarvis mostra |
+|---|---|
+| Prompt engineering | Persona em blocos, com motivo e exemplo em cada regra (`prompts/persona.pt-BR.md`); prompts de método para execuções sem interface (`research.py`, `trabalho.py`) |
+| Orquestração de agentes | O Gemini Live orquestra 25 ferramentas e delega ao Claude Code com ferramentas restritas; um trabalho longo por vez, com cancelamento e status |
+| Automações | Leitura diária de sites marcados, agenda e notas por voz, ações rápidas no Mac sem IA, curso em fila com retomada |
+| Vibe coding com controle | Histórico em git, testes de fumaça antes de cada mudança, revisão por subagente |
+| APIs | Gemini Live (WebSocket), Gemini REST, Gemini TTS, Ollama local, Claude CLI, rotas HTTP próprias, ScreenCaptureKit |
+| Análise de dados com IA | Análise de vídeo (imagem e áudio), busca por trechos, diagnóstico dos próprios logs |
+
+**O que isto não prova:** impacto de negócio. O Jarvis é de uso individual, e as horas economizadas ainda não foram
+medidas (hipótese H-07 em `01-DECISOES.md`).
+
+## Arquitetura em uma figura
+```text
+Usuário (voz) -> App Mac (Swift + janela web) -> servidor Python local -> Gemini Live (nuvem do Google)
+                                                     |
+       +-------------+-------------+---------------+---------------+
+       |             |             |               |               |
+  Claude Code     Atticus      Gemini REST    Cofre Markdown   Ferramentas locais
+  sem interface   (opcional,   (tela, links,  (memória,        (AppleScript, gravação
+  (pesquisa,      ações no     vídeo, TTS)    notas,           de tela, agenda)
+  trabalho longo) Mac)                        conversas)
+```
+Detalhes em [`00-BIBLIA.md`](00-BIBLIA.md).
+
+## Evolução em 13 dias
+- **03/11**: voz do Mac → o autor não gostou → Gemini Live → app nativo com memória no Obsidian.
+- **04–05/11**: palmas, F5, visão da tela, pesquisa por Claude Code, interface de vidro com widgets.
+- **07–10/11**: Studio estilo NotebookLM; gravação de tela para assistir cursos.
+- **11/11**: widget de Notas, git, busca por trechos, Ollama de reserva, testes.
+- **13/11**: noite autônoma em branch separada (honestidade, texto inteiro no chat, progresso visível, mudo sem
+  derrubar a conversa) e trabalho longo de verdade.
+- **15/11**: anexos no chat.
+
+## Números
+| O quê | Valor | Origem |
+|---|---|---|
+| Ferramentas de voz | 25 | contadas em `server.py` (16/11/2026) |
+| Testes de fumaça (`testes.py`) | 155 verificações passando | `./run.sh --test`, 16/11/2026 |
+| Tarefas curtas no Mac | 39 entre 03/11 e 13/11; mediana 7,2 s; p90 17,4 s | relatório de 13/11, não reconferido |
+| Pesquisa rápida | 97,6 s antes; 26,4 s depois (perguntas diferentes, não é comparação justa) | relatório de 13/11, não reconferido |
+| Curso estudado sozinho | 27 de 84 aulas, até o acesso ser encerrado | plano do modo curso |
+| Horas economizadas | **não medido** | H-07 |
+
+## Ficha do projeto
+| Campo | Valor |
+|---|---|
+| Responsável (quem decide) | Lucas Mandelblatt |
+| Quem implementa | Claude Code, sob direção do autor |
+| Problema | Um assistente de voz que só responde não ajuda no trabalho real. O autor queria um que ouvisse, agisse no computador, lembrasse do que combinaram e dissesse a verdade sobre o que fez. [D-001] [D-020a] |
+| Usuário | Uma pessoa, em um Mac |
+| Linguagens | Python (servidor aiohttp), Swift (app macOS), HTML/JS (interface) |
+
+---
+
+# Instalação e uso
 
 > Só macOS (usa Keychain, osascript, screencapture e um app Swift). Interface e persona em português do Brasil.
 
