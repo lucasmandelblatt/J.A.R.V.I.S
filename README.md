@@ -1,6 +1,10 @@
 # Jarvis: assistente de voz que conversa, pesquisa, estuda e executa no Mac
 
-> 🎥 **Demonstração (3 min):** _link do vídeo aqui_
+### Vídeo de demonstração (6min31)
+
+[![Assistir à demonstração do Jarvis](docs/video-capa.jpg)](docs/jarvis-demonstracao.mp4)
+
+**▶ [Assistir ao vídeo](docs/jarvis-demonstracao.mp4)**: o Jarvis em uso real, por voz: painel, agenda, notas, pesquisa com fontes e o Studio com projetos, chat com citações e materiais gerados.
 
 Assistente de voz para Mac, em português. Você conversa e o Jarvis responde por voz (Gemini Live), age no computador,
 pesquisa com fontes, assiste e estuda vídeos e cursos, e guarda memória em notas Markdown (compatível com Obsidian),
